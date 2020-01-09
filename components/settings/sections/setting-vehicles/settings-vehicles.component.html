@@ -1,0 +1,102 @@
+<breadcrumb title="System Settings" route="/settings"></breadcrumb>
+<div class="inner-content-container">
+  <div class="container-fluid">
+    <div class="page-header">
+      <h1>Vehicles</h1>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-2 col-lg-3 col-12">
+        <app-settings-sidebar></app-settings-sidebar>
+      </div>
+
+      <div class="col-xl-10 col-lg-9 col-12">
+        <div class="portlet tabbable">
+          <div class="portlet-header tabbable-line">
+            <app-tab-settings-vehicles></app-tab-settings-vehicles>
+          </div>
+
+          <div class="portlet p-0 shadow-none border-0 mb-3 txt_center">
+            <div class="row" *ngIf="vehicleCounts">
+              <ng-container *ngFor="let vehicleTypeCounts of vehicleCounts">
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="mtop_10 mbottom_10">
+                    <div class="portlet-header">
+                      <div class="title uppercase mx-auto">{{vehicleTypeCounts.type}}</div>
+                    </div>
+                    <div class="portlet-body">
+                      <h1 class="bold font-red big_font pbottom_0">{{vehicleTypeCounts.count || 0}}</h1>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="portlet-header">
+            <div class="title uppercase">System Vehicles</div>
+            <div class="actions">
+              <div class="btn-group btn-group-separated" role="group">
+                <button type="button" class="btn btn-transparent btn-primary" (click)="editVehicle()"><i
+                    class="icon-plus-1"></i> Add</button>
+                <div class="btn-group btn-group-separated" role="group">
+                  <button type="button" class="btn btn-transparent btn-icon-only" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="icon-filter-1"></i> Type:
+                    {{savedFilters.filter_vehicle != null ? savedFilters.filter_vehicle.name : 'All'}}
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-default dropdown-menu-right">
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      [class.active]="savedFilters.filter_vehicle == null"
+                      (click)="filterSettingsByDropdown('filter_vehicle')">All Types</a>
+                    <div class="dropdown-divider"></div>
+                    <ng-container *ngIf="vehicleCombinedData && vehicleCombinedData.vehicle_types">
+                      <ng-container *ngFor="let vehicleType of vehicleCombinedData.vehicle_types">
+                        <a href="javascript:void(0);" class="dropdown-item"
+                        [class.active]="savedFilters.filter_vehicle != null && savedFilters.filter_vehicle.ref == vehicleType.ref"
+                        (click)="filterSettingsByDropdown('filter_vehicle',vehicleType.ref,vehicleType.name)">{{vehicleType.name}}</a>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="portlet-body" *ngIf="vehicles">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover vertical-align-middle">
+                <thead>
+                  <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Registration No</th>
+                    <th scope="col">Fuel Type</th>
+                    <th scope="col">CO2 Emissions</th>
+                    <th scope="col" class="txt_center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let vehicle of vehicles">
+                    <td>{{vehicle.type?.name}}</td>
+                    <td>{{vehicle.registration}}</td>
+                    <td>{{vehicle.fuel_type?.name}}</td>
+                    <td>{{vehicle.co2_emissions}}</td>
+                    <td class="txt_center">
+                      <button type="button" (click)="editVehicle(vehicle)" title="Edit"
+                        class="btn btn-info btn-icon-only btn-sm"><i class="icon-pencil-1"></i></button>
+                      <button type="button" class="btn btn-info btn-icon-only btn-sm" (click)="deleteVehicle(vehicle)" title="Delete"><i
+                          class="icon-trash-1"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<app-edit-vehicle-modal></app-edit-vehicle-modal>

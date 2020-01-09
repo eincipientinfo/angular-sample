@@ -1,0 +1,82 @@
+<div class="modal " id="modal_vehicle" tabindex="-1" role="dialog" aria-labelledby="modal_vehicle_title"
+  aria-hidden="true" [style.display]="modalShown ? 'block' : 'none' ">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_vehicle_title">Edit Vehicle</h5>
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form *ngIf="form != null" class="form needs-validation" [formGroup]="form" (ngSubmit)="submitForm();" novalidate>
+      <div class="modal-body">
+        <div class="row">
+          
+            <div class="col-lg-12">
+
+              <div class="form-group">
+                <label class="label-style">Type</label>
+                <select class="form-control" *ngIf="vehicleCombinedData && vehicleCombinedData.vehicle_types" formControlName="vehicle_type" required>
+                  <ng-container *ngFor="let vehicleType of vehicleCombinedData.vehicle_types">
+                      <option value="{{vehicleType.ref}}">{{vehicleType.name}}</option>
+                  </ng-container>
+                </select>
+                <div class="invalid-feedback">
+                    Please select Type.
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label-style">Model</label>
+                <input type="text" class="form-control" formControlName="model" required>
+                <div class="invalid-feedback">
+                    Please add a Model.
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label-style">Registration No.</label>
+                <input type="text" class="form-control" formControlName="registration" required>
+                <div class="invalid-feedback">
+                    Please add Registration No.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="label-style">Fuel Type</label>
+                <select class="form-control" *ngIf="vehicleCombinedData && vehicleCombinedData.fuel_types" formControlName="fuel_type" required>
+                  <ng-container *ngFor="let vehicleFuelType of vehicleCombinedData.fuel_types">
+                      <option value="{{vehicleFuelType.ref}}">{{vehicleFuelType.name}}</option>
+                  </ng-container>
+                </select>
+                <div class="invalid-feedback">
+                    Please select Fuel Type.
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label-style">CO2 Emissions</label>
+                <input type="text" class="form-control" formControlName="co2_emissions" required>
+                <div class="invalid-feedback">
+                    Please add CO2 Emissions.
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label-style">Colour</label>
+                <input type="text" class="form-control" formControlName="colour" required>
+                <div class="invalid-feedback">
+                    Please add Colour.
+                </div>
+              </div>
+              <input type="hidden" class="form-control" formControlName="mode" >
+              <input type="hidden" class="form-control" formControlName="vehicle_ref" >
+            </div>
+          
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" >Save</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
